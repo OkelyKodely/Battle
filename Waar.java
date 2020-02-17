@@ -7,8 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,20 +18,25 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-public class Battle{
-    private boolean soundEffectsOn = true;
-    private boolean musicOn = true;
-    private JFrame frame = new JFrame();
-    private RainPanel panel = new RainPanel();
-    private Rambo rambo = new Rambo();
-    private Boss1 bs_1 = new Boss1(this);
-    private Boss2 bs_2 = new Boss2(this);
-    private Boss3 bs_3 = new Boss3(this);
-    private Boss4 bs_4 = new Boss4(this);
-    private Boss5 bs_5 = new Boss5(this);
-    private Boss6 bs_6 = new Boss6(this);
+public class Waar extends Battle {
+    public    KeyListener keyL;
+                public    JLabel bossStr1 = new JLabel("Boss 1 / 7: ");
+    public    JLabel bossStr2 = new JLabel("Boss 2 / 7: ");
+    public    JLabel bossStr3 = new JLabel("Boss 3 / 7: ");
+    public    JLabel bossStr4 = new JLabel("Boss 4 / 7: ");
+    public    JLabel bossStr5 = new JLabel("Boss 5 / 7: ");
+    public    JLabel bossStr6 = new JLabel("Boss 6 / 7: ");
+    public    JButton a = new JButton("Play");
+    public    JLabel b = new JLabel("BATTLE");
+    public    JPanel panel3 = new JPanel();
+    public RainPanel panel = new RainPanel();
+    public Rambo rambo = new Rambo();
+    public Boss1 bs_1 = new Boss1(this);
+    public Boss2 bs_2 = new Boss2(this);
+    public Boss3 bs_3 = new Boss3(this);
+    public Boss4 bs_4 = new Boss4(this);
+    public Boss5 bs_5 = new Boss5(this);
+    public Boss6 bs_6 = new Boss6(this);
     public int life = 100;
     public int bullet = 100;
     public int bomb = 0;
@@ -43,59 +46,39 @@ public class Battle{
     public int shakeGround = 0;
     public int level = 1;
     public int step = 0;
-    private boolean setLevel6 = false;
-    private JLabel howToPlayLbl = new JLabel("BATTLE");
-    private JLabel txtLbl = new JLabel("To shoot, space; To bomb, enter; To move, arrow Keys");
+    public boolean setLevel6 = false;
+    public JLabel howToPlayLbl = new JLabel("BATTLE");
+    public JLabel txtLbl = new JLabel("To shoot, space; To bomb, enter; To move, arrow Keys");
     public List bs1 = new ArrayList();
     public List<EnemySoldier.Shoot> shoots = new ArrayList<EnemySoldier.Shoot>();
-    private List<EnemySoldier> es = new ArrayList<EnemySoldier>();
-    private List<Prisoner> p = new ArrayList<Prisoner>();
-    private List<Coin> coins = new ArrayList<Coin>();
+    public List<EnemySoldier> es = new ArrayList<EnemySoldier>();
+    public List<Prisoner> p = new ArrayList<Prisoner>();
+    public List<Coin> coins = new ArrayList<Coin>();
     public boolean levelBossStart = false;
     public boolean advancedLvl = false;
-    private boolean playAgain = false;
-    private boolean playPressed = false;
-    private String level1Str = "Level 1";
-    private String level2Str = "Level 2";
-    private String level3Str = "Level 3";
-    private String level4Str = "Level 4";
-    private String level5Str = "Level 5";
-    private String level6Str = "Level 6";
-    private String level7Str = "The End";
-    private int level1DoneLoading = 0;
-    private int level2DoneLoading = 0;
-    private int level3DoneLoading = 0;
-    private int level4DoneLoading = 0;
-    private int level5DoneLoading = 0;
-    private int level6DoneLoading = 0;
-    private Graphics g;
-    private int ft = 0;
+    public boolean playAgain = false;
+    public boolean playPressed = false;
+    public String level1Str = "Level 1";
+    public String level2Str = "Level 2";
+    public String level3Str = "Level 3";
+    public String level4Str = "Level 4";
+    public String level5Str = "Level 5";
+    public String level6Str = "Level 6";
+    public String level7Str = "The End";
+    public int level1DoneLoading = 0;
+    public int level2DoneLoading = 0;
+    public int level3DoneLoading = 0;
+    public int level4DoneLoading = 0;
+    public int level5DoneLoading = 0;
+    public int level6DoneLoading = 0;
+    public Graphics g;
+    public int ft = 0;
+    public    JPanel panel2 = new JPanel();
 
-    public Battle() {
-
-    }
-
-    public static void main(String[] args) {
-
-        Battle war = new Battle();
-        war.addSound();
-        war.setGUI(). addKeyListener();
-                
-    }
-
-    JPanel panel3 = new JPanel();
-
-    private Battle setGUI(){
-        Battle.this.frame.setTitle("BATTLE");
-        frame.setLayout(null);
-        frame.getContentPane().setBackground(Color.red);
-        frame.setSize(new Dimension(1200, 800));
-        frame.setLocation(0, 0);
-
+    public Waar setGUI(){
         panel3.setSize(new Dimension(1200, 800));
         panel3.setLocation(0, 0);
         panel3.setBackground(Color.black);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.howToPlayLbl.setFont(new java.awt.Font("tahoma", java.awt.Font.PLAIN, 24));
         howToPlayLbl.setForeground(java.awt.Color.yellow);
@@ -105,218 +88,65 @@ public class Battle{
         txtLbl.setForeground(java.awt.Color.white);
         txtLbl.setLocation(0, 40);
 
-        JPanel panel2 = new JPanel();
         panel2.setFont(new Font("arial", Font.BOLD, 30));
-        panel2.setBackground(java.awt.Color.red);
+        panel2.setBackground(java.awt.Color.blue);
         panel2.setSize(new Dimension(1200, 800));
         panel2.setLocation(1100, 520);
-        frame.add(panel2);
-        frame.add(howToPlayLbl);
-        panel2.add(txtLbl);
+        //panel2.add(txtLbl);
 
-        frame.add(panel2);
-
-        frame.setTitle("BATTLE " + "life: " + life + " bullet: " + this.bullet + " bombs: " + bomb);
+        //frame.add(panel2);
 
         bs_1.pb.setSize(new Dimension(400, 20));
         bs_1.pb.setLocation(700, 720 - 200);
 
-        JLabel bossStr1 = new JLabel("Boss 1 / 7: ");
         bossStr1.setSize(new Dimension(100, 20));
         bossStr1.setLocation(620, 720 - 200);
         bossStr1.setForeground(Color.green);
 
-        //frame.add(bs_1.pb);
-
-        //frame.add(bossStr1);
 
         bs_2.pb.setSize(new Dimension(400, 20));
         bs_2.pb.setLocation(700, 750 - 200);
 
-        JLabel bossStr2 = new JLabel("Boss 2 / 7: ");
         bossStr2.setSize(new Dimension(100, 20));
         bossStr2.setLocation(620, 750 - 200);
         bossStr2.setForeground(Color.green);
 
-        //frame.add(bs_2.pb);
-
-        //frame.add(bossStr2);
-
         bs_3.pb.setSize(new Dimension(400, 20));
         bs_3.pb.setLocation(700, 780 - 200);
 
-        JLabel bossStr3 = new JLabel("Boss 3 / 7: ");
         bossStr3.setSize(new Dimension(100, 20));
         bossStr3.setLocation(620, 780 - 200);
         bossStr3.setForeground(Color.green);
 
-        //frame.add(bs_3.pb);
-
-        //frame.add(bossStr3);
-
         bs_4.pb.setSize(new Dimension(400, 20));
         bs_4.pb.setLocation(700, 810 - 200);
 
-        JLabel bossStr4 = new JLabel("Boss 4 / 7: ");
         bossStr4.setSize(new Dimension(100, 20));
         bossStr4.setLocation(620, 810 - 200);
         bossStr4.setForeground(Color.green);
 
-        //frame.add(bs_4.pb);
-
-        //frame.add(bossStr4);
-
         bs_5.pb.setSize(new Dimension(400, 20));
         bs_5.pb.setLocation(700, 840 - 200);
 
-        JLabel bossStr5 = new JLabel("Boss 5 / 7: ");
         bossStr5.setSize(new Dimension(100, 20));
         bossStr5.setLocation(620, 840 - 200);
         bossStr5.setForeground(Color.green);
 
-        //frame.add(bs_5.pb);
-
-        //frame.add(bossStr5);
-
         bs_6.pb.setSize(new Dimension(400, 20));
         bs_6.pb.setLocation(700, 870 - 200);
 
-        JLabel bossStr6 = new JLabel("Boss 6 / 7: ");
         bossStr6.setSize(new Dimension(100, 20));
         bossStr6.setLocation(620, 870 - 200);
         bossStr6.setForeground(Color.green);
 
-        //frame.add(bs_6.pb);
-
-        //frame.add(bossStr6);
-
-        Battle.this.g = panel3.getGraphics();
-                
-        JButton a = new JButton("Play");
+        Waar.this.g = panel2.getGraphics();
+        
         a.setSize(new Dimension(150,30));
-        a.setLocation(620, 900);
-        JLabel b = new JLabel("BATTLE");
+        a.setLocation(1220, 100);
         b.setSize(new Dimension(150,30));
-        b.setLocation(720, 850);
-        b.setFont(new Font("verdana",Font.BOLD,33));
-        frame.add(a);
-        frame.add(b);
+        b.setLocation(1220, 0);
         b.setForeground(Color.RED);
         b.setFont(new Font("arial", Font.BOLD, 30));
-        frame.add(panel3);
-        JButton a9 = new JButton("HELP");
-        a9.setSize(new Dimension(150,30));
-        a9.setLocation(820, 900);
-        a9.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JFrame jjj = new JFrame();
-                jjj.setBounds(0, 0, 450, 300);
-                jjj.setVisible(true);
-                JLabel text1 = new JLabel("To Move: LEFT/RIGHT/DOWN/UP arrows");
-                JLabel text2 = new JLabel("To Bombe: Enter Key");
-                JLabel text3 = new JLabel("To Shoot: Space Key");
-                text1.setBounds(10, 10, 430, 30);
-                text2.setBounds(10, 50, 300, 30);
-                text3.setBounds(10, 90, 300, 30);
-                text1.setFont(new Font("arial",Font.BOLD,20));
-                text2.setFont(new Font("arial",Font.BOLD,20));
-                text3.setFont(new Font("arial",Font.BOLD,20));
-                jjj.add(text1);
-                jjj.add(text2);
-                jjj.add(text3);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-        frame.add(a9);
-        a.requestFocus();
-        JCheckBox d = new JCheckBox("sound effects?");
-        d.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(d.isSelected()) {
-                    soundEffectsOn = true;
-                } else {
-                    soundEffectsOn = false;
-                }
-                frame.requestFocus();
-            }
-        });
-        frame.add(d);
-        d.setBackground(Color.RED);
-        d.setLocation(620,820);
-        d.setSize(200,30);
-        JCheckBox c = new JCheckBox("music?");
-        d.setSelected(true);
-        c.setSelected(true);
-        JButton jbj = new JButton("Quit");
-        jbj.setBounds(990, 900, 70, 30);
-        frame.add(jbj);
-        jbj.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.exit(0);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-        c.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                 if(c.isSelected()) {
-                     musicOn = true;
-                     try {
-                         audioClip.stop();
-                     } catch(Exception ee) {
-                         ee.printStackTrace();
-                     }
-                     addSound();
-                 } else {
-                     musicOn = false;
-                     try {
-                         audioClip.stop();
-                     } catch(Exception ee) {
-                         ee.printStackTrace();
-                     }
-                 }
-                 frame.requestFocus();
-            }
-        });
-        frame.add(c);
-        c.setBackground(Color.RED);
-        c.setLocation(620,850);
-        c.setSize(200,30);
-        frame.validate();
-        frame.repaint();
         panel3.setLayout(null);
         a.addMouseListener(new MouseListener() {
             @Override
@@ -331,12 +161,12 @@ public class Battle{
                     @Override
                     public void run() {
                         if(ft > 0)
-                            frame.remove(panel3);
+//                            frame.remove(panel3);
                         ft++;
                         playPressed = true;
-                        frame.remove(panel2);
-                        panel3.removeAll();
-                        frame.add(panel3);
+  //                      frame.remove(panel2);
+//                        panel3.removeAll();
+    //                    frame.add(panel3);
                         JLabel l = new JLabel("Loading...");
                         l.setSize(new Dimension(560, 30));
                         l.setFont(new Font("arial", Font.BOLD, 20));
@@ -363,14 +193,14 @@ public class Battle{
                         } while(c <= 100);
                         playPressed = false;
                         a.setText("Play");
-                        frame.requestFocus();
-                        frame.remove(panel3);
+      //                  frame.requestFocus();
+        //                frame.remove(panel3);
                         panel.setSize(new Dimension(1200, 800));
                         panel.setLocation(0, 0);
                         panel.setBackground(Color.blue);
-                        frame.add(panel);
-                        Battle.this.start();
-                        frame.remove(panel3);
+          //              frame.add(panel);
+            //            frame.remove(panel3);
+                        Waar.this.start();
                     }
                 });
                 t.start();
@@ -382,16 +212,10 @@ public class Battle{
             public void mouseExited(MouseEvent e) {
             }
         });
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
         makeIntro(panel3);
-        JLabel j = new JLabel("BATTLE");
-        frame.add(j);
-        j.setBounds(940, 850, 200, 50);
-        j.setFont(new Font("arial",Font.BOLD,30));
         return this;
     }
-    private void makeIntro(final JPanel panel3) {
+    public void makeIntro(final JPanel panel3) {
         Thread th = new Thread(new Runnable() {
             public void run() {
                 int c = 0;
@@ -407,7 +231,7 @@ public class Battle{
                     if(c == 4)
                         c = 0;
                     Image im = i.getImage();
-                    panel3.getGraphics().drawImage(im, 0, 0, panel3.getWidth(), panel3.getHeight(), null);
+                    //panel3.getGraphics().drawImage(im, 0, 0, panel3.getWidth(), panel3.getHeight(), null);
                     try {
                         Thread.sleep(3000);
                     } catch(InterruptedException ie) {}
@@ -416,11 +240,11 @@ public class Battle{
         });
         th.start();
     }
-    private void addKeyListener() {
-        KeyListener keyL = new KeyListener() {
+    public void addKeyListener() {
+        keyL = new KeyListener() {
             public void keyTyped(KeyEvent e) {}
-            public void keyReleased(KeyEvent e) {}
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                      if(bomb > 0) {
                          rambo.throwBomb();
@@ -436,11 +260,11 @@ public class Battle{
                  }
 
                  if(e.getKeyCode() == KeyEvent.VK_UP) {
-                     Battle.this.rambo.moveTop();
+                     rambo.moveTop();
                  }
 
                  if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-                     Battle.this.rambo.moveLeft();
+                     rambo.moveLeft();
                  }
 
                  if(e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -451,14 +275,25 @@ public class Battle{
                      rambo.moveRight();
                  }
 
-                 drawSoldier(panel.getGraphics());
+                 drawSoldier(panel2.getGraphics());
             }
         };
-        frame.addKeyListener(keyL);
     }
-    private void __l123() throws InterruptedException {
+    public void drawSoldier(Graphics g) {
+        java.awt.Image img = null;
+        
+        String image = "soldier.gif";
+        
+        if(rambo.dazed > 0)
+            image = "dazed.gif";
+        
+        javax.swing.ImageIcon i = new javax.swing.ImageIcon(this.getClass().getResource(image));
+        img = i.getImage();
+        
+        g.drawImage(img, rambo.x, rambo.y, 60, 60, null);
+    }
+    public void __l123() throws InterruptedException {
         if(this.level!=7){
-            frame.setTitle("BATTLE " + "life: " + life + " bullet: " + bullet + " bombs: " + bomb);
         }
         Thread.sleep(17);
         if(level != 7) {
@@ -470,25 +305,25 @@ public class Battle{
             drawPrisoners();
         }
     }
-    private void start(){
+    public void start(){
         g = panel.getGraphics();
         randomizeNewEnemySoldiers();
         randomizeNewPrisoners();
         try{
             while(true) {
-                if(Battle.this.playPressed) {
+                if(this.playPressed) {
                     g.setColor(Color.black);
                     g.fillRect(0, 0, panel.getWidth(), panel.getHeight());
                     level = 1;
                     step = 0;
                     levelBossStart = false;
                     bs1.clear();
-                    frame.remove(bs_1.pb);
-                    frame.remove(bs_2.pb);
-                    frame.remove(bs_3.pb);
-                    frame.remove(bs_4.pb);
-                    frame.remove(bs_5.pb);
-                    frame.remove(bs_6.pb);
+//                    frame.remove(bs_1.pb);
+//                    frame.remove(bs_2.pb);
+//                    frame.remove(bs_3.pb);
+//                    frame.remove(bs_4.pb);
+//                    frame.remove(bs_5.pb);
+//                    frame.remove(bs_6.pb);
                     bs_1 = new Boss1(this);
                     bs_2 = new Boss2(this);
                     bs_3 = new Boss3(this);
@@ -498,22 +333,16 @@ public class Battle{
                     rambo = new Rambo();
                     bs_1.pb.setSize(new Dimension(400, 20));
                     bs_1.pb.setLocation(700, 720 - 200);
-                    frame.add(bs_1.pb);
                     bs_2.pb.setSize(new Dimension(400, 20));
                     bs_2.pb.setLocation(700, 750 - 200);
-                    frame.add(bs_2.pb);
                     bs_3.pb.setSize(new Dimension(400, 20));
                     bs_3.pb.setLocation(700, 780 - 200);
-                    frame.add(bs_3.pb);
                     bs_4.pb.setSize(new Dimension(400, 20));
                     bs_4.pb.setLocation(700, 810 - 200);
-                    frame.add(bs_4.pb);
                     bs_5.pb.setSize(new Dimension(400, 20));
                     bs_5.pb.setLocation(700, 840 - 200);
-                    frame.add(bs_5.pb);
                     bs_6.pb.setSize(new Dimension(400, 20));
                     bs_6.pb.setLocation(700, 870 - 200);
-                    frame.add(bs_6.pb);
                     life = 100;
                     bullet = 100;
                     bomb = 0;
@@ -522,7 +351,6 @@ public class Battle{
                     es.clear();
                     coins.clear();
                     shoots.clear();
-                    frame.requestFocus();
                     level1DoneLoading = 0;
                     level2DoneLoading = 0;
                     level3DoneLoading = 0;
@@ -534,7 +362,7 @@ public class Battle{
                 
                 try {
                     __l123();
-                    Battle.this.panel.paintComponent(g);
+                    this.panel.paintComponent(g);
                     if(es.size() > 0) {
 
                         for(int i=0; i<rambo.theShoot.size(); i++) {
@@ -570,13 +398,11 @@ public class Battle{
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
 
                                     rambo.bombs.remove(bomb);
                                     if(enemySoldier.didYouExplode(bomb.x, bomb.y)) {
                                         makeDyingSound();
-                                        makeBombSound();
 
                                         drawExplosion(bomb.x, bomb.y);
 
@@ -603,7 +429,6 @@ public class Battle{
                                 if(enemySoldier.bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(enemySoldier.bomb.x, enemySoldier.bomb.y);
 
                                     if(enemySoldier.bomb.x >= rambo.x - 140 && 
@@ -618,7 +443,7 @@ public class Battle{
                         }
                     }
                     
-                    if(Battle.this.rambo.dazed>0) {
+                    if(this.rambo.dazed>0) {
                         rambo.dazed = rambo.dazed - 1;
                     }
 
@@ -647,12 +472,6 @@ public class Battle{
                         step = 0;
                         levelBossStart = false;
                         bs1.clear();
-                        frame.remove(bs_1.pb);
-                        frame.remove(bs_2.pb);
-                        frame.remove(bs_3.pb);
-                        frame.remove(bs_4.pb);
-                        frame.remove(bs_5.pb);
-                        frame.remove(bs_6.pb);
                         bs_1 = new Boss1(this);
                         bs_2 = new Boss2(this);
                         bs_3 = new Boss3(this);
@@ -662,22 +481,16 @@ public class Battle{
                         rambo = new Rambo();
                         bs_1.pb.setSize(new Dimension(400, 20));
                         bs_1.pb.setLocation(700, 720 - 200);
-                        frame.add(bs_1.pb);
                         bs_2.pb.setSize(new Dimension(400, 20));
                         bs_2.pb.setLocation(700, 750 - 200);
-                        frame.add(bs_2.pb);
                         bs_3.pb.setSize(new Dimension(400, 20));
                         bs_3.pb.setLocation(700, 780 - 200);
-                        frame.add(bs_3.pb);
                         bs_4.pb.setSize(new Dimension(400, 20));
                         bs_4.pb.setLocation(700, 810 - 200);
-                        frame.add(bs_4.pb);
                         bs_5.pb.setSize(new Dimension(400, 20));
                         bs_5.pb.setLocation(700, 840 - 200);
-                        frame.add(bs_5.pb);
                         bs_6.pb.setSize(new Dimension(400, 20));
                         bs_6.pb.setLocation(700, 870 - 200);
-                        frame.add(bs_6.pb);
                         life = 100;
                         bullet = 100;
                         bomb = 0;
@@ -686,7 +499,6 @@ public class Battle{
                         es.clear();
                         coins.clear();
                         shoots.clear();
-                        frame.requestFocus();
                         level1DoneLoading = 0;
                         level2DoneLoading = 0;
                         level3DoneLoading = 0;
@@ -695,11 +507,11 @@ public class Battle{
                         level6DoneLoading = 0;
                     }
 
-                    if(Battle.this.p.size() == 0 && level != 7) {
+                    if(this.p.size() == 0 && level != 7) {
                         randomizeNewPrisoners();
                     }
 
-                    if(Battle.this.step != 4 && es.size() == 0) {
+                    if(this.step != 4 && es.size() == 0) {
                         ++step;
                         randomizeNewEnemySoldiers();
                         if(level == 7) {
@@ -708,7 +520,7 @@ public class Battle{
                         }
                     }
 
-                    if(Battle.this.step == 4) {
+                    if(this.step == 4) {
                         if(level == 1) {
                             if(!levelBossStart) {
                                 bs_1.x = 800;
@@ -758,7 +570,6 @@ public class Battle{
                                 if(bomb != null)
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
                                     rambo.bombs.remove(bomb);
                                     if(bomb.x >= bs_1.x && bomb.y >= bs_1.y &&
@@ -807,7 +618,6 @@ public class Battle{
                                         shoot.x <= bs_2.x + 300 &&
                                         shoot.y <= bs_2.y + 300) {
                                     bs_2.life = bs_2.life - 2;
-                                    makeBombSound();
                                     bs_2.pb.setValue(bs_2.life);
                                     if(bs_2.life <= 0) {
                                         advancedLvl = true;
@@ -824,7 +634,6 @@ public class Battle{
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
 
                                     rambo.bombs.remove(bomb);
@@ -832,7 +641,6 @@ public class Battle{
                                             bomb.x <= bs_2.x + 300 &&
                                             bomb.y <= bs_2.y + 300) {
                                         bs_2.life = bs_2.life - 55;
-                                        makeBombSound();
                                         bs_2.pb.setValue(bs_2.life);
                                         if(bs_2.life <= 0) {
                                             advancedLvl = true;
@@ -875,7 +683,6 @@ public class Battle{
                                         shoot.x <= bs_3.x + 300 &&
                                         shoot.y <= bs_3.y + 300) {
                                     bs_3.life = bs_3.life - 2;
-                                    makeBombSound();
                                     bs_3.pb.setValue(bs_3.life);
                                     if(bs_3.life <= 0) {
                                         advancedLvl = true;
@@ -892,7 +699,6 @@ public class Battle{
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
 
                                     rambo.bombs.remove(bomb);
@@ -900,7 +706,6 @@ public class Battle{
                                             bomb.x <= bs_3.x + 300 &&
                                             bomb.y <= bs_3.y + 300) {
                                         bs_3.life = bs_3.life - 55;
-                                        makeBombSound();
                                         bs_3.pb.setValue(bs_3.life);
                                         if(bs_3.life <= 0) {
                                             advancedLvl = true;
@@ -943,7 +748,6 @@ public class Battle{
                                         shoot.x <= bs_4.x + 300 &&
                                         shoot.y <= bs_4.y + 300) {
                                     bs_4.life = bs_4.life - 2;
-                                    makeBombSound();
                                     bs_4.pb.setValue(bs_4.life);
                                     if(bs_4.life <= 0) {
                                         advancedLvl = true;
@@ -960,7 +764,6 @@ public class Battle{
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
 
                                     rambo.bombs.remove(bomb);
@@ -968,7 +771,6 @@ public class Battle{
                                             bomb.x <= bs_4.x + 300 &&
                                             bomb.y <= bs_4.y + 300) {
                                         bs_4.life = bs_4.life - 55;
-                                        makeBombSound();
                                         bs_4.pb.setValue(bs_4.life);
                                         if(bs_4.life <= 0) {
                                             advancedLvl = true;
@@ -1011,7 +813,6 @@ public class Battle{
                                         shoot.x <= bs_5.x + 300 &&
                                         shoot.y <= bs_5.y + 300) {
                                     bs_5.life = bs_5.life - 2;
-                                    makeBombSound();
                                     bs_5.pb.setValue(bs_5.life);
                                     if(bs_5.life <= 0) {
                                         advancedLvl = true;
@@ -1028,7 +829,6 @@ public class Battle{
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
 
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
 
                                     rambo.bombs.remove(bomb);
@@ -1036,7 +836,6 @@ public class Battle{
                                             bomb.x <= bs_5.x + 300 &&
                                             bomb.y <= bs_5.y + 300) {
                                         bs_5.life = bs_5.life - 55;
-                                        makeBombSound();
                                         bs_5.pb.setValue(bs_5.life);
                                         if(bs_5.life <= 0) {
                                             advancedLvl = true;
@@ -1079,7 +878,6 @@ public class Battle{
                                         shoot.x <= bs_6.x + 300 &&
                                         shoot.y <= bs_6.y + 300) {
                                     bs_6.life = bs_6.life - 2;
-                                    makeBombSound();
                                     bs_6.pb.setValue(bs_6.life);
                                     if(bs_6.life <= 0) {
                                         advancedLvl = true;
@@ -1095,14 +893,12 @@ public class Battle{
                                 if(bomb != null)
                                 if(bomb.stage == 13) {
                                     shakeGround = 5;
-                                    makeBombSound();
                                     drawExplosion(bomb.x, bomb.y);
                                     rambo.bombs.remove(bomb);
                                     if(bomb.x >= bs_6.x && bomb.y >= bs_6.y &&
                                             bomb.x <= bs_6.x + 300 &&
                                             bomb.y <= bs_6.y + 300) {
                                         bs_6.life = bs_6.life - 55;
-                                        makeBombSound();
                                         bs_6.pb.setValue(bs_6.life);
                                         if(bs_6.life <= 0) {
                                             advancedLvl = true;
@@ -1114,7 +910,6 @@ public class Battle{
                         else if(level == 7) {
                             drawHeaven(panel.getGraphics());
                             if(!setLevel6) {
-                                frame.setTitle("You have killed Hitler~");
                                 setLevel6 = true;
                             }
                         }
@@ -1180,87 +975,49 @@ public class Battle{
                         ++level;
                     }
                     
-                    Graphics gg = frame.getGraphics();
-                    Graphics ggg = g;
-                    g = gg;
-                    Graphics gggg = panel.getGraphics();
-                    gggg.setFont(new Font("Edwardian Script ITC", Font.BOLD, 105));
-                    
-                    gggg.setColor(Color.red);
                     g.setFont(new Font("tahoma", Font.BOLD, 135));
                     
                     g.setColor(Color.YELLOW);
 
-                    boolean doit = false;
-                    
                     if(level1DoneLoading!=100 && level == 1) {
-                        gggg.drawString(level1Str, 100, 170);
-                        g.drawString(level1Str, 100, 970);
+                        g.drawString(level1Str, 100, 100);
                         level1DoneLoading++;
-                    } else if(level2DoneLoading!=100 && level == 2) {
-                        gggg.drawString(level2Str, 100, 170);
-                        g.drawString(level2Str, 100, 970);
-                        level2DoneLoading++;
-                    } else if(level3DoneLoading!=100 && level == 3) {
-                        gggg.drawString(level3Str, 100, 170);
-                        g.drawString(level3Str, 100, 970);
-                        level3DoneLoading++;
-                    } else if(level4DoneLoading!=100 && level == 4) {
-                        gggg.drawString(level4Str, 100, 170);
-                        g.drawString(level4Str, 100, 970);
-                        level4DoneLoading++;
-                    } else if(level5DoneLoading!=100 && level == 5) {
-                        gggg.drawString(level4Str, 100, 170);
-                        g.drawString(level5Str, 100, 970);
-                        level5DoneLoading++;
-                    } else if(level6DoneLoading!=100 && level == 6) {
-                        gggg.drawString(level5Str, 100, 170);
-                        g.drawString(level6Str, 100, 970);
-                        level6DoneLoading++;
-                    } else if(level == 7) {
-                        gggg.drawString(level6Str, 100, 170);
-                        g.drawString(level7Str, 100, 970);
-                    } else {
-                        doit = true;
                     }
-                    
-                    if(doit) {
-                        
-                        g.setColor(Color.RED);
-                        
-                        g.fillRect(0, 860, 610, 1100);
 
-                        g.setColor(Color.YELLOW);
-                    
+                    if(level2DoneLoading!=100 && level == 2) {
+                        g.drawString(level2Str, 100, 100);
+                        level2DoneLoading++;
                     }
-                    
-                    g = ggg;
+
+                    if(level3DoneLoading!=100 && level == 3) {
+                        g.drawString(level3Str, 100, 100);
+                        level3DoneLoading++;
+                    }
+
+                    if(level4DoneLoading!=100 && level == 4) {
+                        g.drawString(level4Str, 100, 100);
+                        level4DoneLoading++;
+                    }
+
+                    if(level5DoneLoading!=100 && level == 5) {
+                        g.drawString(level5Str, 100, 100);
+                        level5DoneLoading++;
+                    }
+
+                    if(level6DoneLoading!=100 && level == 6) {
+                        g.drawString(level6Str, 100, 100);
+                        level6DoneLoading++;
+                    }
+
+                    if(level == 7) {
+                        g.drawString(level7Str, 100, 100);
+                    }
                 } catch(Exception e) {}
             }
         } catch(Exception e) {}
     }
-    Clip audioClip = null;
-    public void addSound() {
-        try {
-            File audioFile = new File("mario.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            
-            AudioFormat format = audioStream.getFormat();
-            
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-            audioClip = (Clip) AudioSystem.getLine(info);
-            
-            audioClip.open(audioStream);
-            audioClip.loop(Clip.LOOP_CONTINUOUSLY);
-            audioStream.close();
-        } catch (UnsupportedAudioFileException unsupportedAudioFileException) {
-        } catch (IOException iOException) {
-        } catch (LineUnavailableException lineUnavailableException) {
-        }
-    }
 
-
-    private void drawBossLvlShoots() {
+    public void drawBossLvlShoots() {
         java.awt.Image img = null;
 
         String image = "bomb.gif";
@@ -1306,7 +1063,7 @@ public class Battle{
         }
     }
     
-    private void drawBossLvl(int x, int y) {
+    public void drawBossLvl(int x, int y) {
         java.awt.Image img = null;
 
         String image = null;
@@ -1330,9 +1087,7 @@ public class Battle{
         g.drawImage(img, x, y, 300, 300, null);
     }
     
-    private void makeCoinSound() {
-        if(!soundEffectsOn)
-            return;
+    public void makeCoinSound() {
         try {
             makeSound("coin.wav");
         } catch(Exception e1) {
@@ -1342,9 +1097,7 @@ public class Battle{
         }
     }
 
-    private void makeDohSound() {
-        if(!soundEffectsOn)
-            return;
+    public void makeDohSound() {
         try {
             makeSound("doh.wav");
         } catch(Exception e1) {
@@ -1354,9 +1107,7 @@ public class Battle{
         }
     }
         
-    private void makeDyingSound() {
-        if(!soundEffectsOn)
-            return;
+    public void makeDyingSound() {
         try {
             makeSound("woohoo.wav");
         } catch(Exception e1) {
@@ -1366,19 +1117,7 @@ public class Battle{
         }
     }
 
-    private void makeBombSound() {
-        if(!soundEffectsOn)
-            return;
-        try {
-            makeSound("bomb.wav");
-        } catch(Exception e1) {
-            try {
-                makeSound("src/bomb.wav");
-            } catch(Exception e2) {}
-        }
-    }
-
-    private void makeSound(String file) throws Exception {
+    public void makeSound(String file) throws Exception {
 
         File audioFile = new File(file);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -1393,14 +1132,14 @@ public class Battle{
         audioStream.close();
     }
 
-    private void drawCoins() {
+    public void drawCoins() {
         for(int i=0; i<coins.size(); i++) {
             Coin coin = coins.get(i);
             drawCoins(coin);
         }
     }
     
-    private void drawCoins(Coin coin) {
+    public void drawCoins(Coin coin) {
         java.awt.Image img = null;
 
         String image = "coin.png";
@@ -1408,10 +1147,10 @@ public class Battle{
         javax.swing.ImageIcon i = new javax.swing.ImageIcon(this.getClass().getResource(image));
         img = i.getImage();
 
-        Battle.this.g.drawImage(img, coin.x, coin.y, 80, 80, null);
+        g.drawImage(img, coin.x, coin.y, 80, 80, null);
     }
 
-    private void drawRamboAssets() {
+    public void drawRamboAssets() {
         for(int i=0; i<rambo.theShoot.size(); i++) {
             Rambo.Shoot shoot = rambo.theShoot.get(i);
 
@@ -1429,7 +1168,7 @@ public class Battle{
         }
     }
     
-    private void drawHeaven(Graphics g) {
+    public void drawHeaven(Graphics g) {
         if(level != 5)
             return;
 
@@ -1440,10 +1179,10 @@ public class Battle{
         javax.swing.ImageIcon i = new javax.swing.ImageIcon(this.getClass().getResource(image));
         img = i.getImage();
 
-        Battle.this.g.drawImage(img, 0, 0, panel.getWidth(), panel.getHeight(), null);
+        this.g.drawImage(img, 0, 0, panel.getWidth(), panel.getHeight(), null);
     }
     
-    private void drawBattleField(Graphics g) {
+    public void drawBattleField(Graphics g) {
         BufferedImage bi = null;
 
         String image = null;
@@ -1488,7 +1227,7 @@ public class Battle{
         g.drawImage(bi, bx, 0, panel.getWidth(), panel.getHeight(), null);
         g.drawImage(mimg, bx2, 0, panel.getWidth(), panel.getHeight(), null);
 
-        if(Battle.this.shakeGround == 0) {
+        if(this.shakeGround == 0) {
             bx-=5;
             bx2-=5;
         }
@@ -1520,7 +1259,7 @@ public class Battle{
             shakeGround--;
     }
 
-    private void drawExplosion(int x, int y) {
+    public void drawExplosion(int x, int y) {
         java.awt.Image imgFb = null;
 
         String imageFb = "explosion.gif";
@@ -1531,7 +1270,7 @@ public class Battle{
         g.drawImage(imgFb, x-500, y-500, 1000, 1000, null);
     }
     
-    private void drawEnemyBomb(int x, int y) {
+    public void drawEnemyBomb(int x, int y) {
         java.awt.Image imgFb = null;
 
         String imageFb = "bomb.gif";
@@ -1542,7 +1281,7 @@ public class Battle{
         g.drawImage(imgFb, x, y, 50, 50, null);
     }
 
-    private void drawBombs(Rambo.Bomb bomb) {
+    public void drawBombs(Rambo.Bomb bomb) {
         if(bomb == null)
             return;
 
@@ -1556,7 +1295,7 @@ public class Battle{
         g.drawImage(imgFb, bomb.x, bomb.y, 50, 50, null);
     }
 
-    private void drawShoots(Rambo.Shoot shoot) {
+    public void drawShoots(Rambo.Shoot shoot) {
         if(shoot == null)
             return;
 
@@ -1570,7 +1309,7 @@ public class Battle{
         g.drawImage(imgFb, shoot.x, shoot.y, 50, 50, null);
     }
     
-    private void drawEnemyShoots(EnemySoldier.Shoot shoot) {
+    public void drawEnemyShoots(EnemySoldier.Shoot shoot) {
         if(shoot == null)
             return;
         
@@ -1589,7 +1328,7 @@ public class Battle{
         g2d.drawImage(imgFb, at, null);
     }
 
-    private void drawPrisoners() {
+    public void drawPrisoners() {
         for(int i=0; i<p.size(); i++) {
             java.awt.Image imgFb = null;
             
@@ -1609,7 +1348,7 @@ public class Battle{
         }
     }
 
-    private void drawEnemies(Graphics g) {
+    public void drawEnemies(Graphics g) {
         for(int i=0; i<es.size(); i++) {
             EnemySoldier sold = es.get(i);
             
@@ -1662,35 +1401,21 @@ public class Battle{
         }
     }
     
-    private void drawSoldier(Graphics g) {
-        java.awt.Image img = null;
-        
-        String image = "soldier.gif";
-        
-        if(rambo.dazed > 0)
-            image = "dazed.gif";
-        
-        javax.swing.ImageIcon i = new javax.swing.ImageIcon(this.getClass().getResource(image));
-        img = i.getImage();
-        
-        g.drawImage(img, rambo.x, rambo.y, 60, 60, null);
-    }
-
-    private void randomizeNewEnemySoldiers() {
+    public void randomizeNewEnemySoldiers() {
         for(int i = 0; i < 10; i++) {
-            Battle.this.es.add( new EnemySoldier(this));
+            this.es.add( new EnemySoldier(this));
         }
 
     }
-    private void randomizeNewPrisoners() {
+    public void randomizeNewPrisoners() {
         for(int i = 0; i < 5; i++) {
-            Battle.this.p.add( new Prisoner());
+            this.p.add( new Prisoner());
         }
 
     }
     public void randomizeMiniNewEnemySoldiers() {
         for(int i = 0; i < 6; i++) {
-            Battle.this.es.add( new EnemySoldier(this));
+            this.es.add( new EnemySoldier(this));
         }
 
     }
