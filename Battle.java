@@ -44,8 +44,8 @@ public class Battle{
     public int level = 1;
     public int step = 0;
     private boolean setLevel6 = false;
-    private JLabel howToPlayLbl = new JLabel("BATTLE");
-    private JLabel txtLbl = new JLabel("To shoot, space; To bomb, enter; To move, arrow Keys");
+    private JLabel howToPlayLbl = new JLabel();
+    private JLabel txtLbl = new JLabel();
     public List bs1 = new ArrayList();
     public List<EnemySoldier.Shoot> shoots = new ArrayList<EnemySoldier.Shoot>();
     private List<EnemySoldier> es = new ArrayList<EnemySoldier>();
@@ -115,8 +115,6 @@ public class Battle{
         panel2.add(txtLbl);
 
         frame.add(panel2);
-
-        frame.setTitle("BATTLE " + "life: " + life + " bullet: " + this.bullet + " bombs: " + bomb);
 
         bs_1.pb.setSize(new Dimension(400, 20));
         bs_1.pb.setLocation(700, 720 - 200);
@@ -416,11 +414,51 @@ public class Battle{
         });
         th.start();
     }
+    String cheatcode = "letmewin";
+    String cheatcode2 = "godmode";
+    int cursorcheatcode = 0;
+    int meritcheatcode = 0; //has to be 7
+    boolean cheatcodepower = false;
     private void addKeyListener() {
         KeyListener keyL = new KeyListener() {
             public void keyTyped(KeyEvent e) {}
             public void keyReleased(KeyEvent e) {}
             public void keyPressed(KeyEvent e) {
+                
+                if(e.getKeyCode() == KeyEvent.VK_L && cursorcheatcode == 0) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_E && cursorcheatcode == 1) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_T && cursorcheatcode == 2) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_M && cursorcheatcode == 3) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_E && cursorcheatcode == 4) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_W && cursorcheatcode == 5) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_I && cursorcheatcode == 6) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_N && cursorcheatcode == 7) {
+                    cursorcheatcode ++;
+                    if(cursorcheatcode == 8) {
+                        cheatcodepower = true;
+                    }
+                    else
+                        cursorcheatcode = 0;
+                }
+                
+                if(cursorcheatcode > 7)
+                    cursorcheatcode = 0;
+                
+                
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                      if(bomb > 0) {
                          rambo.throwBomb();
@@ -458,7 +496,14 @@ public class Battle{
     }
     private void __l123() throws InterruptedException {
         if(this.level!=7){
-            frame.setTitle("BATTLE " + "life: " + life + " bullet: " + bullet + " bombs: " + bomb);
+            if(!cheatcodepower)
+                frame.setTitle("BATTLE " + "life: " + life + " bullet: " + bullet + " bombs: " + bomb);
+            else
+                frame.setTitle("BATTLE " + "life: inf, bullet: inf, bombs: inf");
+            if(cheatcodepower)
+                bullet = 999999;
+            if(cheatcodepower)
+                bomb = 999999;
         }
         Thread.sleep(17);
         if(level != 7) {
@@ -476,6 +521,7 @@ public class Battle{
         randomizeNewPrisoners();
         try{
             while(true) {
+        
                 if(Battle.this.playPressed) {
                     g.setColor(Color.black);
                     g.fillRect(0, 0, panel.getWidth(), panel.getHeight());
@@ -533,6 +579,14 @@ public class Battle{
                 }
                 
                 try {
+                    if(!cheatcodepower)
+                        frame.setTitle("BATTLE " + "life: " + life + " bullet: " + this.bullet + " bombs: " + bomb);
+                    else
+                        frame.setTitle("BATTLE " + "life: inf, bullet: inf, bombs: inf");
+                    if(cheatcodepower)
+                        bullet = 999999;
+                    if(cheatcodepower)
+                        bomb = 999999;
                     __l123();
                     Battle.this.panel.paintComponent(g);
                     if(es.size() > 0) {
@@ -550,7 +604,8 @@ public class Battle{
                                     es.remove(enemySoldier);
                                     Coin coin = new Coin(shoot.x, shoot.y);
                                     coins.add(coin);
-                                    life+=2;
+                                    if(!cheatcodepower)
+                                        life+=2;
                                 }
                             }
                             if(shoot.x > 1200) {
@@ -583,7 +638,8 @@ public class Battle{
                                         es.remove(enemySoldier);
                                         Coin coin = new Coin(bomb.x, bomb.y);
                                         coins.add(coin);
-                                        life+=3;
+                                        if(!cheatcodepower)
+                                            life+=3;
                                     }
                                 }
                             }
@@ -610,7 +666,8 @@ public class Battle{
                                             enemySoldier.bomb.y >= rambo.y - 140 &&
                                             enemySoldier.bomb.x <= rambo.x + 140 &&
                                             enemySoldier.bomb.y <= rambo.y + 140) {
-                                        life -= 5;
+                                            if(!cheatcodepower)
+                                                life -= 5;
                                     }
                                     enemySoldier.bomb = null;
                                 }
@@ -621,6 +678,9 @@ public class Battle{
                     if(Battle.this.rambo.dazed>0) {
                         rambo.dazed = rambo.dazed - 1;
                     }
+                    
+                    if(cheatcodepower)
+                        rambo.dazed = 0;
 
                     for(int i=0; i<shoots.size(); i++) {
                         EnemySoldier.Shoot shoot = shoots.get(i);
@@ -633,7 +693,8 @@ public class Battle{
 
                         if(shoot.x >= rambo.x && shoot.y >= rambo.y &&
                                 shoot.x <= rambo.x + 40 && shoot.y <= rambo.y + 40) {
-                            life-=5;
+                            if(!cheatcodepower)
+                                life-=5;
                             rambo.dazed = 52;
                             shoots.remove(shoot);
                         }
@@ -722,7 +783,8 @@ public class Battle{
                                 if(((Boss1.Shoot)bs1.get(i)).x >= rambo.x && ((Boss1.Shoot)bs1.get(i)).y >= rambo.y &&
                                         ((Boss1.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss1.Shoot)bs1.get(i)).y <= rambo.y + 40) {
-                                    life = life - 5;
+                                    if(!cheatcodepower)
+                                        life = life - 5;
                                     rambo.dazed = 170;
                                     bs1.remove(bs1.get(i));
                                 }
@@ -786,7 +848,8 @@ public class Battle{
                                 if(((Boss2.Shoot)bs1.get(i)).x >= rambo.x && ((Boss2.Shoot)bs1.get(i)).y >= rambo.y &&
                                         ((Boss2.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss2.Shoot)bs1.get(i)).y <= rambo.y + 40) {
-                                    life = life - 5;
+                                    if(!cheatcodepower)
+                                        life = life - 5;
                                     rambo.dazed = 170;
                                     bs1.remove(bs1.get(i));
                                 }
@@ -855,7 +918,8 @@ public class Battle{
                                         ((Boss3.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss3.Shoot)bs1.get(i)).y <= rambo.y + 40) {
                                     rambo.dazed = 170;
-                                    life = life - 5;
+                                    if(!cheatcodepower)
+                                        life = life - 5;
                                     bs1.remove(bs1.get(i));
                                 }
                             }
@@ -923,7 +987,8 @@ public class Battle{
                                         ((Boss4.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss4.Shoot)bs1.get(i)).y <= rambo.y + 40) {
                                     rambo.dazed = 170;
-                                    life = life - 6;
+                                    if(!cheatcodepower)
+                                        life = life - 6;
                                     bs1.remove(bs1.get(i));
                                 }
                             }
@@ -991,7 +1056,8 @@ public class Battle{
                                         ((Boss5.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss5.Shoot)bs1.get(i)).y <= rambo.y + 40) {
                                     rambo.dazed = 170;
-                                    life = life - 6;
+                                    if(!cheatcodepower)
+                                        life = life - 6;
                                     bs1.remove(bs1.get(i));
                                 }
                             }
@@ -1059,7 +1125,8 @@ public class Battle{
                                         ((Boss6.Shoot)bs1.get(i)).x <= rambo.x + 40 &&
                                         ((Boss6.Shoot)bs1.get(i)).y <= rambo.y + 40) {
                                     rambo.dazed = 170;
-                                    life = life - 4;
+                                    if(!cheatcodepower)
+                                        life = life - 4;
                                     bs1.remove(bs1.get(i));
                                 }
                             }
@@ -1184,7 +1251,7 @@ public class Battle{
                     Graphics ggg = g;
                     g = gg;
                     Graphics gggg = panel.getGraphics();
-                    gggg.setFont(new Font("Edwardian Script ITC", Font.BOLD, 105));
+                    gggg.setFont(new Font("arial", Font.BOLD, 105));
                     
                     gggg.setColor(Color.red);
                     g.setFont(new Font("tahoma", Font.BOLD, 135));
@@ -1210,15 +1277,15 @@ public class Battle{
                         g.drawString(level4Str, 100, 970);
                         level4DoneLoading++;
                     } else if(level5DoneLoading!=100 && level == 5) {
-                        gggg.drawString(level4Str, 100, 170);
+                        gggg.drawString(level5Str, 100, 170);
                         g.drawString(level5Str, 100, 970);
                         level5DoneLoading++;
                     } else if(level6DoneLoading!=100 && level == 6) {
-                        gggg.drawString(level5Str, 100, 170);
+                        gggg.drawString(level6Str, 100, 170);
                         g.drawString(level6Str, 100, 970);
                         level6DoneLoading++;
                     } else if(level == 7) {
-                        gggg.drawString(level6Str, 100, 170);
+                        gggg.drawString(level7Str, 100, 170);
                         g.drawString(level7Str, 100, 970);
                     } else {
                         doit = true;
