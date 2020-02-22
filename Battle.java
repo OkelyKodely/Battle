@@ -419,6 +419,7 @@ public class Battle{
     int cursorcheatcode = 0;
     int meritcheatcode = 0; //has to be 7
     boolean cheatcodepower = false;
+    boolean godmode = false;
     private void addKeyListener() {
         KeyListener keyL = new KeyListener() {
             public void keyTyped(KeyEvent e) {}
@@ -458,7 +459,34 @@ public class Battle{
                 if(cursorcheatcode > 7)
                     cursorcheatcode = 0;
                 
+                if(e.getKeyCode() == KeyEvent.VK_G && cursorcheatcode == 0) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_O && cursorcheatcode == 1) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_D && cursorcheatcode == 2) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_M && cursorcheatcode == 3) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_O && cursorcheatcode == 4) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_D && cursorcheatcode == 5) {
+                    cursorcheatcode ++;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_E && cursorcheatcode == 6) {
+                    cursorcheatcode ++;
+                    if(cursorcheatcode == 7) {
+                        godmode = true;
+                    }
+                    else
+                        cursorcheatcode = 0;
+                }
                 
+
                 if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                      if(bomb > 0) {
                          rambo.throwBomb();
@@ -468,8 +496,11 @@ public class Battle{
 
                  if(e.getKeyCode() == KeyEvent.VK_SPACE) {
                      if(bullet > 2) {
-                         rambo.shoot();
-                         bullet-=3;
+                         rambo.shoot(godmode);
+                         if(godmode)
+                             bullet -= 6;
+                         else
+                             bullet-=3;
                      }
                  }
 
@@ -504,6 +535,8 @@ public class Battle{
                 bullet = 999999;
             if(cheatcodepower)
                 bomb = 999999;
+            if(godmode)
+                frame.setTitle("BATTLE " + "godmode~");
         }
         Thread.sleep(17);
         if(level != 7) {
@@ -587,6 +620,9 @@ public class Battle{
                         bullet = 999999;
                     if(cheatcodepower)
                         bomb = 999999;
+                    if(godmode)
+                        frame.setTitle("BATTLE " + "godmode~");
+
                     __l123();
                     Battle.this.panel.paintComponent(g);
                     if(es.size() > 0) {
